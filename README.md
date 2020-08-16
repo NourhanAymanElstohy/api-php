@@ -15,6 +15,8 @@ cd api_php
 
 ### Database
 
+Edit database.php file with your database configuration
+
 ```
 create database employees_api;
 use employees_api;
