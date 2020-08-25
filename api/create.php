@@ -14,12 +14,19 @@ $emp = new Employee($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$emp->name = $data->name;
-$emp->phone = $data->phone;
-$emp->age = $data->age;
-
-if ($emp->create()) {
-    echo json_encode(array("message" => 'Employee added'));
-} else {
-    echo json_encode(array("message" => 'Employee not added'));
+if($data->name === null || $data->phone === null || $data->age === null){
+    echo json_encode(array("message" => 'Null data'));
 }
+else {
+    $emp->name = $data->name;
+    $emp->phone = $data->phone;
+    $emp->age = $data->age;
+    if ($emp->create()) {
+        echo json_encode(array("message" => 'Employee added'));
+    } else {
+        echo json_encode(array("message" => 'Employee not added'));
+    }
+
+}
+
+
