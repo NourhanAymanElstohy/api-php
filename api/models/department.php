@@ -1,11 +1,11 @@
 <?php
-class Employee
+class Department
 {
     private $conn;
     private $table_name = "department";
 
-    public $id;
-    public $name;
+    public $dept_id;
+    public $dept_name;
 
     public function __construct($db)
     {
@@ -21,7 +21,7 @@ class Employee
     }
     public function read_single()
     {
-        $query = "SELECT e.id, e.name from $this->table_name e where e.id=?";
+        $query = "SELECT d.id, d.name from $this->table_name d where d.id=?";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(1, $this->id);
