@@ -2,12 +2,16 @@
 class Employee
 {
     private $conn;
-    private $table_name = "employees";
+    private $employees = "employees";
+    private $department = "department";
 
     public $id;
     public $name;
     public $phone;
     public $age;
+    public $dept_id;
+    public $dept_name;
+    public $is_mgr;
 
     public function __construct($db)
     {
@@ -15,7 +19,16 @@ class Employee
     }
     public function read()
     {
-        $query = "SELECT * from " . $this->table_name;
+        $query = "SELECT
+                d.id as dept_id, 
+                d.name as dept_name, 
+                e.id,
+                e.is_mgr,
+                e.name, 
+                e.phone, 
+                e.age 
+            from $this->employees e, $this->department d 
+            WHERE e.dept_id=d.id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -23,7 +36,7 @@ class Employee
     }
     public function read_single () 
     {
-        $query = "SELECT e.id, e.name, e.phone, e.age from $this->table_name e where e.id=?";
+        $query = "SELECT e.id, e.name, e.phone, e.age from $this->employees e where e.id=?";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(1, $this->id);
@@ -39,15 +52,17 @@ class Employee
     }
     public function create()
     {
-        $query = "INSERT INTO " . $this->table_name .
-            "(name, phone, age) values(:name, :phone, :age)";
+        $query = "INSERT INTO " . $this->employees .
+            "(name, is_mgr, phone, age, dept_id) values(:name, :is_mgr,:phone, :age, :dept_id)";
 
         $stmt = $this->conn->prepare($query);
 
         $stmt->execute(array(
             ':name' => $this->name,
+            ':is_mgr' => $this->is_mgr,
             ':phone' => $this->phone,
             ':age' => $this->age,
+            ':dept_id' => $this->dept_id
         ));
 
         return $stmt;
@@ -55,7 +70,13 @@ class Employee
 
     public function update()
     {
-        $query = "UPDATE $this->table_name SET name=:name, phone=:phone,age=:age WHERE id=:id";
+        $query = "UPDATE $this->employees SET 
+            name=:name, 
+            phone=:phone,
+            age=:age,
+            dept_id=:dept_id,
+            is_mgr=:is_mgr 
+        WHERE id=:id";
 
         $stmt = $this->conn->prepare($query);
 
@@ -64,6 +85,8 @@ class Employee
             ':name' => $this->name,
             ':phone' => $this->phone,
             ':age' => $this->age,
+            ':dept_id' => $this->dept_id,
+            ':is_mgr' => $this->is_mgr
         ));
 
         return $stmt;
@@ -71,7 +94,7 @@ class Employee
 
     public function delete()
     {
-        $query = "DELETE from $this->table_name WHERE id=:id";
+        $query = "DELETE from $this->employees WHERE id=:id";
 
         $stmt = $this->conn->prepare($query);
 

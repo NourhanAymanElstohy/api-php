@@ -28,7 +28,7 @@ create table employees(id integer, name varchar(50), phone varchar(50), age inte
 _To make GET Request, send get request to_
 
 ```
-http://localhost/your_project_path/api/read.php
+http://localhost/your_project_path/api/employee/read.php
 ```
 
 _To make POST Request_
@@ -48,7 +48,7 @@ _To make POST Request_
 and make sure its json then send post request to
 
 ```
-http://localhost/your_project_path/api/create.php
+http://localhost/your_project_path/api/employee/create.php
 ```
 
 _To make a PUT or Update Request_
@@ -73,7 +73,7 @@ and make sure of
   then send put request to
 
 ```
-http://localhost/your_project_path/api/update.php
+http://localhost/your_project_path/api/employee/update.php
 ```
 
 _To make a DELETE Request_
@@ -95,5 +95,5 @@ and make sure of
   then send put request to
 
 ```
-http://localhost/your_project_path/api/delete.php
+http://localhost/your_project_path/api/employee/delete.php
 ```
